@@ -18,9 +18,10 @@ const app = new App({
 receiver.router.get("/lock", async (req, res) => {
     const { key } = req.query
     if (!process.env.API_KEY || key !== process.env.API_KEY) return res.status(401).json({ ok: false, error: "Please provide a valid API key" })
-    return await prisma.thread.findMany({
+    const threads = await prisma.thread.findMany({
         where: {}
-    })
+    });
+    return threads;
 });
 receiver.router.post("/lock", async (req, res) => {
     const { id, user, time, reason, channel, key } = req.query
